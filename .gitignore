@@ -1,0 +1,13 @@
+# Python:
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+venv
+*~
+*.swp
+.DS_Store
+.idea
+config_dev.py
+logs/
