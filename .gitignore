@@ -11,3 +11,4 @@ venv
 .idea
 config_dev.py
 logs/
+settings/

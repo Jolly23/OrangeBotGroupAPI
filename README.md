@@ -36,8 +36,25 @@
 		- [6\. 获取当前全部机器人](#6-获取当前全部机器人)
 			- [6.1 请求参数说明](#61-请求参数说明)
 			- [6.2 data返回参数说明](#62-data返回参数说明)
+		- [7\. 删除机器人](#7-删除机器人)
+			- [7.1 请求参数说明](#71-请求参数说明)
+			- [7.2 data返回参数说明](#72-data返回参数说明)
 	- [微信群列表管理](#微信群列表管理)
 		- [1\. 新增微信群信息](#1-新增微信群信息)
+			- [1.1 请求参数说明](#11-请求参数说明)
+			- [1.2 data返回参数说明](#12-data返回参数说明)
+		- [2\. 微信群停止展示](#2-微信群停止展示)
+			- [2.1 请求参数说明](#21-请求参数说明)
+			- [2.2 data返回参数说明](#22-data返回参数说明)
+		- [3\. 微信群恢复展示](#3-微信群恢复展示)
+			- [3.1 请求参数说明](#31-请求参数说明)
+			- [3.2 data返回参数说明](#32-data返回参数说明)
+		- [4\. 微信群恢复展示](#4-微信群恢复展示)
+			- [4.1 请求参数说明](#41-请求参数说明)
+			- [4.2 data返回参数说明](#42-data返回参数说明)
+		- [5\. 微信群信息修改](#5-微信群信息修改)
+			- [5.1 请求参数说明](#51-请求参数说明)
+			- [5.2 data返回参数说明](#52-data返回参数说明)
 
 <!-- /TOC -->
 
@@ -253,7 +270,7 @@ remark | 否    | 备注信息
 
 ```json
 {
-    "errcode":-40001,
+    "errcode":-30002,
     "errmsg":"wx_id already exist"
 }
 ```
@@ -301,7 +318,7 @@ wx_id | 是    | 机器人微信号
 
 ```json
 {
-    "errcode":-40002,
+    "errcode":-30002,
     "errmsg":"wx_id not found"
 }
 ```
@@ -347,7 +364,7 @@ wx_id | 是    | 机器人微信号
 
 ```json
 {
-    "errcode":-40003,
+    "errcode":-30002,
     "errmsg":"bot in service"
 }
 ```
@@ -412,7 +429,7 @@ remark | 否（修改则带此参数）    | 备注信息（可无）
 
 ```json
 {
-    "errcode":-40002,
+    "errcode":-30002,
     "errmsg":"wx_id not found"
 }
 ```
@@ -465,7 +482,7 @@ base64_qrcode | 参数三选一即可    | 机器人二维码
 
 ```json
 {
-    "errcode":-40002,
+    "errcode":-30002,
     "errmsg":"wx_id not found"
 }
 ```
@@ -557,6 +574,67 @@ remark | 否    | 备注信息
 status | 否    | Int 机器人状态码
 
 
+### 7\. 删除机器人
+
+接口调用请求说明
+
+> 删除某个机器人，将立即停止显示其全部管理中的群，并且在全部机器人列表中消失
+
+http请求方式：Post <http://api.mindaxiaosi.com/api/del_bot>
+
+#### 7.1 请求参数说明
+
+加密消息参数  | 是否必须 | 说明
+--- | ---- | --
+wx_id | 是    | 机器人微信号
+
+
+返回结果 正确时的返回JSON数据包如下：
+
+```json
+{
+    "errcode":0,
+    "errmsg":"ok",
+    "data":{
+            "bot_name": "Ai dog",
+            "wx_id": "xxxxxx",
+            "base64_qrcode": "ihuadwadiwauidwauihudawuhidhuawuhduhawuhduhwahudwauhduhwau...",
+            "create_date": "2017-04-24",
+            "expire_date": "2018-04-24",
+            "remark": "小桔创建",
+            "status": -401
+        }
+}
+```
+
+错误时的返回JSON数据包如下（示例为wx_id未找到）：
+
+```json
+{
+    "errcode":-30002,
+    "errmsg":"wx_id not found"
+}
+```
+
+#### 7.2 data返回参数说明
+
+参数         | 是否必须 | 说明
+---------- | ---- | --------------------
+bot_name  | 否    | Str 机器人名
+wx_id | 否    | Str 机器人微信号
+base64_qrcode | 否    | Str 机器人二维码
+create_date | 否    | Str 此机器人信息创建时间 `2017-04-23`
+expire_date | 否    | Str 此机器人信息创建时间 `2017-04-23`
+remark | 否    | 备注信息
+status | 否    | Int 机器人状态码 `-401为已删除`
+
+
+
+
+
+
+
+
 
 
 
@@ -574,13 +652,15 @@ http请求方式：Post <http://api.xxx.com/api/new_group>
 
 加密消息参数  | 是否必须 | 说明
 --- | ---- | ---
+group_id | 否    | 群ID（重要，用于未来群查找。 可传入，若不传入则自动生成32位随机字符串作为群ID）
 group_name | 是    | 群名
 group_disc | 是    | 群描述（兴趣描述）
 group_catalog1 | 是    | 群分类一级标签 `如 ['编程', '互联网'] 或 ['地区交友', '兴趣']` 
-group_catalog2 | 是    | 群分类二级标签 `如 ['Node'] 或 ['大连野营', '户外运动']`
+group_catalog2 | 是    | 群分类二级标签 `如 ['Node', '深度学习'] 或 ['大连野营', '户外运动']`
 is_admin | 是    | 机器人是否为群主
 bot_wx_id | 是    | 提交此信息机器人微信号
 code | 是    | 发送给机器人的进群暗号
+remark | 否    | 备注信息
 
 
 返回结果 正确时的返回JSON数据包如下：
@@ -591,19 +671,26 @@ code | 是    | 发送给机器人的进群暗号
     "errmsg":"ok",
     "data":[
         {
-            "book_title": "百年孤独",
-            "return_date": "2016-08-01"
+            "group_id": "DWIADduwaidnIUWDNWdNDWAODWDWMiodwnaod",
+            "group_name": "大连户外",
+            "group_disc": "喜欢户外运动，大连地区的伙伴们快加入我们吧，不定期举办集体户外活动哦～",
+            "group_catalog1": {"地区交友": 31, "兴趣": 94},
+            "group_catalog2": {"大连野营": 1, "户外运动": 1},
+            "is_admin": "Y",
+            "bot_wx_id": "xxxxxx",
+            "code": "户外",
+            "status": 0
         }
     ]
 }
 ```
 
-错误时的返回JSON数据包如下（示例为uid错误）：
+错误时的返回JSON数据包如下（示例为机器人ID未找到 `将导致无法提供入群辅助机器人二维码`）：
 
 ```json
 {
-    "errcode":2,
-    "errmsg":"uid illegal"
+    "errcode":-30203,
+    "errmsg":"bot_wx_id not found"
 }
 ```
 
@@ -611,20 +698,33 @@ code | 是    | 发送给机器人的进群暗号
 
 参数          | 是否必须 | 说明
 ----------- | ---- | ---------------------
-book_title  | 否    | 书名 Str
-return_date | 否    | 归还日期 Str `2011-01-01`
+group_id  | 否    | Str 群ID
+group_name  | 否    | Str 群名
+group_disc | 否    | Str 群描述，一句话介绍
+group_catalog1 | 否    | Dict 同类群数量
+group_catalog2 | 否    | Dict 在一级分类相同情况下，同类群数量
+is_admin | 否    | Str 机器人是否为群主
+bot_wx_id | 否    | Str 机器人微信ID
+code | 否    | Str 入群暗号
+status | 否    | Int 群状态码
 
-### 2\. 续期图书接口
+
+
+
+### 2\. 微信群停止展示
 
 接口调用请求说明
 
-http请求方式：Post <http://api.mindaxiaosi.com/api/booklist/delay>
+http请求方式：Post <http://api.xxx.com/api/close_group>
+
 
 #### 2.1 请求参数说明
 
 加密消息参数  | 是否必须 | 说明
---- | ---- | --
-uid | 是    | 学号
+--- | ---- | ---
+group_id | 是    | 群ID
+remark | 否    | 备注信息
+
 
 返回结果 正确时的返回JSON数据包如下：
 
@@ -634,25 +734,226 @@ uid | 是    | 学号
     "errmsg":"ok",
     "data":[
         {
-            "book_title": "百年孤独",
+            "group_name": "大连户外",
+            "group_disc": "喜欢户外运动，大连地区的伙伴们快加入我们吧，不定期举办集体户外活动哦～",
+            "bot_wx_id": "xxxxxx",
+            "code": "户外",
+            "status": -30201
+        }
+    ]
+}
+```
+
+错误时的返回JSON数据包如下（示例为group_id未找到）：
+
+```json
+{
+    "errcode":-30202,
+    "errmsg":"group_id not found"
+}
+```
+
+#### 2.2 data返回参数说明
+
+参数          | 是否必须 | 说明
+----------- | ---- | ---------------------
+group_name  | 否    | Str 群名
+group_disc | 否    | Str 群描述，一句话介绍
+bot_wx_id | 否    | Str 机器人微信ID
+code | 否    | Str 入群暗号
+status | 否    | Int 群状态码
+
+
+### 3\. 微信群恢复展示
+
+接口调用请求说明
+
+http请求方式：Post <http://api.xxx.com/api/reopen_group>
+
+
+#### 3.1 请求参数说明
+
+加密消息参数  | 是否必须 | 说明
+--- | ---- | ---
+group_id | 是    | 群ID
+remark | 否    | 备注信息
+
+
+返回结果 正确时的返回JSON数据包如下：
+
+```json
+{
+    "errcode":0,
+    "errmsg":"ok",
+    "data":[
+        {
+            "group_name": "大连户外",
+            "group_disc": "喜欢户外运动，大连地区的伙伴们快加入我们吧，不定期举办集体户外活动哦～",
+            "bot_wx_id": "xxxxxx",
+            "code": "户外",
             "status": 0
         }
     ]
 }
 ```
 
-错误时的返回JSON数据包如下（示例为uid错误）：
+错误时的返回JSON数据包如下（示例为当前当前group正常展示状态，无法进行reopen操作）：
 
 ```json
 {
-    "errcode":2,
-    "errmsg":"uid illegal"
+    "errcode":-30204,
+    "errmsg":"group in service"
 }
 ```
 
-#### 2.2 data返回参数说明
+#### 3.2 data返回参数说明
 
-参数         | 是否必须 | 说明
----------- | ---- | --------------------
-book_title | 否    | 书名 Str
-status     | 否    | 续期状态 Str `0:成功，1:失败`
+参数          | 是否必须 | 说明
+----------- | ---- | ---------------------
+group_name  | 否    | Str 群名
+group_disc | 否    | Str 群描述，一句话介绍
+bot_wx_id | 否    | Str 机器人微信ID
+code | 否    | Str 入群暗号
+status | 否    | Int 群状态码
+
+
+
+### 4\. 微信群恢复展示
+
+接口调用请求说明
+
+http请求方式：Post <http://api.xxx.com/api/reopen_group>
+
+
+#### 4.1 请求参数说明
+
+加密消息参数  | 是否必须 | 说明
+--- | ---- | ---
+group_id | 是    | 群ID
+remark | 否    | 备注信息
+
+
+返回结果 正确时的返回JSON数据包如下：
+
+```json
+{
+    "errcode":0,
+    "errmsg":"ok",
+    "data":[
+        {
+            "group_name": "大连户外",
+            "group_disc": "喜欢户外运动，大连地区的伙伴们快加入我们吧，不定期举办集体户外活动哦～",
+            "bot_wx_id": "xxxxxx",
+            "code": "户外",
+            "status": 0
+        }
+    ]
+}
+```
+
+错误时的返回JSON数据包如下（示例为当前当前group正常展示状态，无法进行reopen操作）：
+
+```json
+{
+    "errcode":-30204,
+    "errmsg":"group in service"
+}
+```
+
+#### 4.2 data返回参数说明
+
+参数          | 是否必须 | 说明
+----------- | ---- | ---------------------
+group_name  | 否    | Str 群名
+group_disc | 否    | Str 群描述，一句话介绍
+bot_wx_id | 否    | Str 机器人微信ID
+code | 否    | Str 入群暗号
+status | 否    | Int 群状态码
+
+
+### 5\. 微信群信息修改
+
+接口调用请求说明
+
+http请求方式：Post <http://api.xxx.com/api/modify_group>
+
+
+#### 5.1 请求参数说明
+
+加密消息参数  | 是否必须 | 说明
+--- | ---- | ---
+group_id | 是    | 群ID
+group_name | 否（修改则带此参数）   | 群名
+group_disc | 否（修改则带此参数）   | 群描述（兴趣描述）
+group_catalog1 | 否（修改则带此参数）  | 群分类一级标签 `如 ['编程', '互联网'] 或 ['地区交友', '兴趣']` 
+group_catalog2 | 否（修改则带此参数）  | 群分类二级标签 `如 ['Node', '深度学习'] 或 ['大连野营', '户外运动']`
+is_admin | 否（修改则带此参数）  | 机器人是否为群主
+bot_wx_id | 否（修改则带此参数）  | 提交此信息机器人微信号
+code | 否（修改则带此参数）  | 发送给机器人的进群暗号
+remark | 否    | 备注信息
+
+
+返回结果 正确时的返回JSON数据包如下：
+
+```json
+{
+    "errcode":0,
+    "errmsg":"ok",
+    "data":[
+        {
+            "group_id": "DWIADduwaidnIUWDNWdNDWAODWDWMiodwnaod",
+            "group_name": {
+                    "new": "大连户外1群",
+                    "old": "大连户外"
+                },
+            "group_disc": {
+                    "new": "一起到海边玩吧",
+                    "old": "喜欢户外运动，大连地区的伙伴们快加入我们吧，不定期举办集体户外活动哦～"
+                },
+            "group_catalog1": {
+                    "new": "地区交友&兴趣&户外运动",
+                    "old": "地区交友&兴趣"
+                },
+            "group_catalog2": {
+                    "new": "大连野营",
+                    "old": "大连野营&户外运动"
+                },
+            "is_admin": {
+                    "new": "N",
+                    "old": "Y"
+                },
+            "bot_wx_id": {
+                    "new": "xxxxxx01_bot",
+                    "old": "xxxxxx"
+                },
+            "code": {
+                    "new": "大连户外",
+                    "old": "户外"
+                },
+            "status": 0
+        }
+    ]
+}
+```
+错误时的返回JSON数据包如下（示例为当前当前group正常展示状态，无法进行reopen操作）：
+
+```json
+{
+    "errcode":-30204,
+    "errmsg":"group in service"
+}
+```
+
+#### 5.2 data返回参数说明
+
+参数          | 是否必须 | 说明
+----------- | ---- | ---------------------
+group_id  | 否    | Str 群ID
+group_name  | 否    | Str 群名
+group_disc | 否    | Str 群描述，一句话介绍
+group_catalog1 | 否    | Str 群一级分类
+group_catalog2 | 否    | Str 群二级分类
+is_admin | 否    | Str 机器人是否为群主
+bot_wx_id | 否    | Str 机器人微信ID
+code | 否    | Str 入群暗号
+status | 否    | Int 群状态码
