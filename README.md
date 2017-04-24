@@ -210,21 +210,21 @@ timestamp秒时间戳, `args_sign`算法中第一步生成的nonce, `请求数�
 
 `加密消息体encrypt_msg`算法中生成的encrypt_msg, `args_sign`算法中生成的args_sign, 接口api_key
 
-示例：以post的形式请求：<http://api.mindaxiaosi.com/api/urp/usr_dinfo>
+示例：以post的形式请求：<http://api.xxx.com/api/xxx>
 ```python
 import requests
 requests.post(
-url="http://api.mindaxiaosi.com/api/urp/usr_dinfo",
-parame={
-    'nonce': 'YOvmnLpUw1p3faRoQUg0qW689',
-    'timestamp': '1491395776',
-    'msg_signature': '7B73CF91740D1420B1618920E52A01238BEAFB60'
-},
-data={
-    'encrypt_msg': 'uwaduwaduuuUDW98awdadwDWAD9WADAWjawdua',
-    'args_sign': 'JKJIOJGTFVCBHMNPLOTSETGUXHSKM',
-    'api-key': 'xxxx'
-}
+    url="http://api.mindaxiaosi.com/api/urp/usr_dinfo",
+    parame={
+        'nonce': 'YOvmnLpUw1p3faRoQUg0qW689',
+        'timestamp': '1491395776',
+        'msg_signature': '7B73CF91740D1420B1618920E52A01238BEAFB60'
+    },
+    data={
+        'encrypt_msg': 'uwaduwaduuuUDW98awdadwDWAD9WADAWjawdua',
+        'args_sign': 'JKJIOJGTFVCBHMNPLOTSETGUXHSKM',
+        'api-key': 'xxxx'
+    }
 )
 ```
 
