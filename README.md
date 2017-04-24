@@ -214,7 +214,7 @@ timestamp秒时间戳, `args_sign`算法中第一步生成的nonce, `请求数�
 ```python
 import requests
 requests.post(
-    url="http://api.mindaxiaosi.com/api/urp/usr_dinfo",
+    url="http://api.xxx.com/api/xxx",
     parame={
         'nonce': 'YOvmnLpUw1p3faRoQUg0qW689',
         'timestamp': '1491395776',
