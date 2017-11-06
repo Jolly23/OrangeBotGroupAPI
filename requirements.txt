@@ -1,0 +1,16 @@
+ipython
+tornado
+bs4
+lxml
+requests
+beautifulsoup4
+fabric
+supervisor
+grequests
+cx-Oracle
+redis
+pysqlite
+psycopg2
+Crypto
+cx_Oracle
+pillow
